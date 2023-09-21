@@ -29,7 +29,7 @@ async function main() {
 
     stocks.forEach( stock => stock.values.reverse())
 
-    // Time Chart
+    // time Chart line graph
     new Chart(timeChartCanvas.getContext('2d'), {
         type: 'line',
         data: {
@@ -43,13 +43,28 @@ async function main() {
         }
     });
 
+    // highest price chart bar graph
     new Chart(highestPriceChartCanvas.getContext('2d'), {
         type: 'bar',
         data: {
             labels: ['GME', 'MSFT', 'DIS', 'BNTX'],
             datasets: stocks.map(stock => ({
-                label: stock.meta.symbol,
+                label: 'Highest',
                 data: stock.values.map(value => parseFloat(value.high)),
+                backgroundColor: getColor(stock.meta.symbol),
+                borderColor: getColor(stock.meta.symbol),
+            }))
+        }
+    });
+
+    // average price chart pie graph 
+    new Chart(averagePriceChartCanvas.getContext('2d'), {
+        type: 'pie',
+        data: {
+            labels: ['Highest'],
+            datasets: stocks.map(stock => ({
+                label: stock.meta.symbol,
+                data: stock.values.reverse().map(value => parseFloat(value.high)),
                 backgroundColor: getColor(stock.meta.symbol),
                 borderColor: getColor(stock.meta.symbol),
             }))
