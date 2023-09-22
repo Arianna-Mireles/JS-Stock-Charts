@@ -21,7 +21,7 @@ async function main() {
 
     const response = await fetch('https://api.twelvedata.com/time_series?symbol=GME,MSFT,DIS,BNTX&interval=1min&apikey=84d520490f7c467cb633f00e44d8ed7c')
 
-    const result = await response.json()
+    const mockData = await response.json()
 
     const { GME, MSFT, DIS, BNTX } = mockData;
 
@@ -47,7 +47,7 @@ async function main() {
     new Chart(highestPriceChartCanvas.getContext('2d'), {
         type: 'bar',
         data: {
-            labels: ['GME', 'MSFT', 'DIS', 'BNTX'],
+            labels: stocks.map(stock => stock.meta.symbol),
             datasets: stocks.map(stock => ({
                 label: 'Highest',
                 data: stock.values.map(value => parseFloat(value.high)),
